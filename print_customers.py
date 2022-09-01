@@ -1,5 +1,4 @@
 import csv
-from tkinter import Y
 
 infile = open('customers.csv','r')
 
