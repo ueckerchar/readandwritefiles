@@ -4,27 +4,28 @@ infile = open('steps.csv','r')
 outfile = open('avg_steps.csv','w')
 
 csvfile = csv.reader(infile, delimiter = ',')
-
-i = 0
-x = 0
+outfile.write('Month,Steps\n')
 
 next(csvfile)
 
-m = ['January','February','March','April','May','June','July','August','September','October','November','December']
+monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December']
 
+totalSteps = 0
 month = 1
+dayCount = 0
 
-outfile.write('Month, Avg Steps\n')
-for line in csvfile:
-    print(i)
-    if float(line[0]) != month:
-        month = 1
-        avg = (x/i)
-        print(m[month]+', '+str(avg))
-        outfile.write(m[month]+', '+str(avg)+'\n')
-        month += 2
-        i = 0
-        x = 0
+next(csvfile)
 
+for rec in csvfile:
+    if int(rec[0]) == month:
+        totalSteps += int(rec[1])
+        dayCount += 1
+    else:
+        avgSteps = round(totalSteps/dayCount,2)
+        outfile.write(monthNames[month]+','+str(avgSteps)+'\n')
+        totalSteps = int(rec[1])
+        dayCount = 1
+        month += 1
 
-    outfile.close()
+avgSteps = round(totalSteps/dayCount,2)
+outfile.write(monthNames[month]+','+str(avgSteps)+'\n')
